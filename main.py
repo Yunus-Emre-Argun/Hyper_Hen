@@ -2,7 +2,7 @@ import pygame
 from bullet import Bullet
 from enemy import Enemy
 from player import Player
-from chapter import Chapter
+
 
 pygame.init()
 WIDTH, HEIGHT = 800, 800
@@ -16,9 +16,16 @@ bullet = Bullet()
 enemy=Enemy()
 enemyBullet=Bullet()
 
+
 enemyBulletTimer = 0
 
 running = True
+
+
+
+
+
+
 while running:
     clock.tick(60)
     screen.fill((0, 0, 0))
@@ -54,6 +61,7 @@ while running:
 
 
     bullet.moveBullet()
+    bullet.bulletCrashEnemy(enemy)
     bullet.draw(screen)
     player.rangeControl()
     enemy.moveEnemy()
@@ -65,6 +73,12 @@ while running:
     enemyBullet.draw(screen)
 
     player.draw(screen)
+
+    if bullet.bulletCrashEnemy(enemy):
+        running=False
+
+    if enemyBullet.enemyBulletCrashPlayer(player):
+        running=False
 
 
     pygame.display.flip()
