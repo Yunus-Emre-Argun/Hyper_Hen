@@ -1,49 +1,72 @@
 import pygame
 from bullet import Bullet
+from enemy import Enemy
 from player import Player
+from chapter import Chapter
 
-# Pygame başlangıcı
 pygame.init()
 WIDTH, HEIGHT = 800, 800
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Chicken Invaders Clone")
+pygame.display.set_caption("GAME")
 clock = pygame.time.Clock()
 
-# Oyuncu ve mermi objeleri
+
 player = Player()
 bullet = Bullet()
+enemy=Enemy()
+enemyBullet=Bullet()
+
+enemyBulletTimer = 0
 
 running = True
 while running:
     clock.tick(60)
-    screen.fill((0, 0, 0))  # Arka planı siyaha boya
+    screen.fill((0, 0, 0))
 
-    # Olaylar
+    enemyBulletTimer += 1
+    if enemyBulletTimer >= 60:
+        enemyBullet.enemyBullet(enemy)
+        enemyBulletTimer = 0
+
+    enemyBullet.enemyMoveBullet()
+    enemyBullet.draw(screen)
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-        # Space tuşuna basıldığında mermi gönder
+
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 bullet.playerBullet(player)
 
-    # Tuşlara basılı kontrol
+
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT]:
         player.moveLeft()
     if keys[pygame.K_RIGHT]:
         player.moveRight()
+    if event.type == pygame.KEYDOWN:
+        if keys[pygame.K_SPACE]:
+            bullet.playerBullet(player)
+            bullet.draw(screen)
 
-    # Mermi hareket ettir ve çiz
+
+
     bullet.moveBullet()
     bullet.draw(screen)
     player.rangeControl()
+    enemy.moveEnemy()
+    enemy.enemyRangeControl()
+    enemy.drawEnemy(screen)
+    enemyBullet.moveBullet()
 
-    # Oyuncuyu çiz
+    enemyBullet.enemyMoveBullet()
+    enemyBullet.draw(screen)
+
     player.draw(screen)
 
-    # Ekranı güncelle
+
     pygame.display.flip()
 
 pygame.quit()
