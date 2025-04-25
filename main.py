@@ -1,6 +1,7 @@
 import pygame
 from bullet import Bullet
-from enemy import Enemy
+from chapter import ChapterOne
+
 from player import Player
 
 
@@ -11,11 +12,20 @@ pygame.display.set_caption("GAME")
 clock = pygame.time.Clock()
 
 
+
+
 player = Player()
 bullet = Bullet()
-enemy=Enemy()
+
 enemyBullet=Bullet()
 
+
+chapterOne=ChapterOne()
+
+
+def passControl():
+    if chapterOne.missionPass is True:
+        chapterOne.enemy=None
 
 enemyBulletTimer = 0
 
@@ -32,10 +42,11 @@ while running:
 
     enemyBulletTimer += 1
     if enemyBulletTimer >= 60:
-        enemyBullet.enemyBullet(enemy)
+        enemyBullet.enemyBullet(chapterOne.enemy)
         enemyBulletTimer = 0
 
     enemyBullet.enemyMoveBullet()
+
     enemyBullet.draw(screen)
 
     for event in pygame.event.get():
@@ -47,26 +58,29 @@ while running:
             if event.key == pygame.K_SPACE:
                 bullet.playerBullet(player)
 
+        if event.type == pygame.KEYDOWN:
+            if keys[pygame.K_SPACE]:
+                bullet.playerBullet(player)
+                bullet.draw(screen)
+
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT]:
         player.moveLeft()
     if keys[pygame.K_RIGHT]:
         player.moveRight()
-    if event.type == pygame.KEYDOWN:
-        if keys[pygame.K_SPACE]:
-            bullet.playerBullet(player)
-            bullet.draw(screen)
 
 
+    passControl()
 
+    player.reduceHeal(enemyBullet)
     bullet.moveBullet()
-    bullet.bulletCrashEnemy(enemy)
+    bullet.bulletCrashEnemy(chapterOne.enemy)
     bullet.draw(screen)
     player.rangeControl()
-    enemy.moveEnemy()
-    enemy.enemyRangeControl()
-    enemy.drawEnemy(screen)
+    chapterOne.enemy.moveEnemy()
+    chapterOne.enemy.enemyRangeControl()
+    chapterOne.enemy.drawEnemy(screen)
     enemyBullet.moveBullet()
 
     enemyBullet.enemyMoveBullet()
@@ -74,11 +88,11 @@ while running:
 
     player.draw(screen)
 
-    if bullet.bulletCrashEnemy(enemy):
-        running=False
+    if bullet.bulletCrashEnemy(chapterOne.enemy):
+        chapterOne.missionPass=True
 
-    if enemyBullet.enemyBulletCrashPlayer(player):
-        running=False
+
+
 
 
     pygame.display.flip()
