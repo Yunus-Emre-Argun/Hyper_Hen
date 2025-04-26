@@ -43,6 +43,8 @@ class Bullet:
 
         return False
 
+
+
     def enemyMoveBullet(self):
 
         for bullet in self.bullets:

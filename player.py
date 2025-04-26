@@ -1,4 +1,5 @@
 
+
 class Player:
     def __init__(self):
         self.playerX = 400
@@ -7,6 +8,7 @@ class Player:
         self.height = 50
         self.speed = 5
         self.playerDirx=4
+        self.heal=3
 
     def moveRight(self):
         self.playerX+=self.playerDirx
@@ -25,4 +27,13 @@ class Player:
 
     def draw(self, screen):
         import pygame
-        pygame.draw.rect(screen, (0, 255, 0), (self.playerX, self.playerY, self.width, self.height))
+        pygame.draw.rect(screen, (0, 255, 0), (self.playerX, self.playerY, self.height, self.width))
+
+
+    def reduceHeal(self,bullet):
+        import main
+
+        if bullet.enemyBulletCrashPlayer(self):
+            self.heal-=1
+            print(main.clock.get_time())
+            print(self.heal)

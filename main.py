@@ -1,6 +1,7 @@
 import pygame
 from bullet import Bullet
-from chapter import ChapterOne
+from chapter import ChapterOne, ChapterTwo
+from gamelogic import GameLogic
 
 from player import Player
 
@@ -17,15 +18,15 @@ clock = pygame.time.Clock()
 player = Player()
 bullet = Bullet()
 
+gameLogic=GameLogic()
+
 enemyBullet=Bullet()
 
 
 chapterOne=ChapterOne()
 
+chapterTwo=ChapterTwo()
 
-def passControl():
-    if chapterOne.missionPass is True:
-        chapterOne.enemy=None
 
 enemyBulletTimer = 0
 
@@ -71,16 +72,16 @@ while running:
         player.moveRight()
 
 
-    passControl()
+    gameLogic.passControl(chapterOne)
 
     player.reduceHeal(enemyBullet)
     bullet.moveBullet()
     bullet.bulletCrashEnemy(chapterOne.enemy)
     bullet.draw(screen)
     player.rangeControl()
-    chapterOne.enemy.moveEnemy()
-    chapterOne.enemy.enemyRangeControl()
-    chapterOne.enemy.drawEnemy(screen)
+
+    gameLogic.drawChapters(chapterOne, screen)
+
     enemyBullet.moveBullet()
 
     enemyBullet.enemyMoveBullet()
@@ -90,6 +91,7 @@ while running:
 
     if bullet.bulletCrashEnemy(chapterOne.enemy):
         chapterOne.missionPass=True
+
 
 
 
