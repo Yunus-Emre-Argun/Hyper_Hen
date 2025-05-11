@@ -1,5 +1,4 @@
 import pygame
-<<<<<<< HEAD
 import random
 
 from bullet import Bullet
@@ -30,7 +29,7 @@ bullet = Bullet(player.x, player.y)
 
 def create_enemies():
     enemies = []
-    for _ in range(random.randint(5, 12 )):
+    for _ in range(random.randint(4, 15 )):
         enemies.append(Enemy())
     return enemies
 
@@ -46,85 +45,19 @@ while running:
     screen.fill((0, 0, 0))
     enemyBulletTimer += 1
 
-=======
-from bullet import Bullet
-from chapter import ChapterOne, ChapterTwo
-from gamelogic import GameLogic
-
-from player import Player
-
-
-pygame.init()
-WIDTH, HEIGHT = 800, 800
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("GAME")
-clock = pygame.time.Clock()
-
-
-
-
-player = Player()
-bullet = Bullet()
-
-gameLogic=GameLogic()
-
-enemyBullet=Bullet()
-
-
-chapterOne=ChapterOne()
-
-chapterTwo=ChapterTwo()
-
-
-enemyBulletTimer = 0
-
-running = True
-
-
-
-
-
-
-while running:
-    clock.tick(60)
-    screen.fill((0, 0, 0))
-
-    enemyBulletTimer += 1
-    if enemyBulletTimer >= 60:
-        enemyBullet.enemyBullet(chapterOne.enemy)
-        enemyBulletTimer = 0
-
-    enemyBullet.enemyMoveBullet()
-
-    enemyBullet.draw(screen)
->>>>>>> e7ba4374b3759aae396dfd2a75add85ff8d1628b
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-<<<<<<< HEAD
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 bullet.playerBullet(player)
 
-=======
-
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                bullet.playerBullet(player)
-
-        if event.type == pygame.KEYDOWN:
-            if keys[pygame.K_SPACE]:
-                bullet.playerBullet(player)
-                bullet.draw(screen)
-
->>>>>>> e7ba4374b3759aae396dfd2a75add85ff8d1628b
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT]:
         player.moveLeft()
-<<<<<<< HEAD
     elif keys[pygame.K_RIGHT]:
         player.moveRight()
     else:
@@ -185,37 +118,5 @@ while running:
         enemies = create_enemies()
 
     pygame.display.update()
-=======
-    if keys[pygame.K_RIGHT]:
-        player.moveRight()
-
-
-    gameLogic.passControl(chapterOne)
-
-    player.reduceHeal(enemyBullet)
-    bullet.moveBullet()
-    bullet.bulletCrashEnemy(chapterOne.enemy)
-    bullet.draw(screen)
-    player.rangeControl()
-
-    gameLogic.drawChapters(chapterOne, screen)
-
-    enemyBullet.moveBullet()
-
-    enemyBullet.enemyMoveBullet()
-    enemyBullet.draw(screen)
-
-    player.draw(screen)
-
-    if bullet.bulletCrashEnemy(chapterOne.enemy):
-        chapterOne.missionPass=True
-
-
-
-
-
-
-    pygame.display.flip()
->>>>>>> e7ba4374b3759aae396dfd2a75add85ff8d1628b
 
 pygame.quit()
