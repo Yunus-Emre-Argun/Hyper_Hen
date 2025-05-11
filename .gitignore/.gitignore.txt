@@ -1,0 +1,14 @@
+# Python bytecode dosyaları
+__pycache__/
+*.pyc
+
+# IDE dosyaları
+.idea/
+.vscode/
+
+# Sistem dosyaları
+.DS_Store
+Thumbs.db
+
+# Diğer geçici dosyalar
+*.log
