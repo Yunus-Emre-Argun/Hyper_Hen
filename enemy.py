@@ -1,5 +1,6 @@
 
 
+<<<<<<< HEAD
 import pygame
 import random
 import numpy
@@ -118,3 +119,36 @@ class Enemy(pygame.sprite.Sprite):
         for bullet in self.enemy_bullets:
             bullet[1] += self.enemy_bullet_speed
         self.enemy_bullets = [b for b in self.enemy_bullets if b[1] < c.DISPLAY_HEIGHT]
+=======
+
+class Enemy:
+    def __init__(self):
+        self.enemyX=50
+        self.enemyY=50
+        self.enemyDirx=4
+        self.width=50
+        self.height=50
+        self.speed=5
+
+
+    def moveEnemy(self):
+        self.enemyX+=self.enemyDirx
+
+    def enemyRangeControl(self):
+        if self.enemyX > 750:
+            self.enemyDirx = -self.enemyDirx
+
+        if self.enemyX<0:
+            self.enemyDirx=-self.enemyDirx
+
+
+
+
+
+
+
+    def drawEnemy(self,screen):
+        import pygame
+        pygame.draw.rect((screen),(255,0,0),(self.enemyX,self.enemyY,self.width,self.height))
+
+>>>>>>> e7ba4374b3759aae396dfd2a75add85ff8d1628b
