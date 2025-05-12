@@ -5,7 +5,7 @@ import random
 class Yildiz(pygame.sprite.Sprite):
     def __init__(self):
         super(Yildiz,self).__init__()
-        self.width = random.randrange(1 , 3)
+        self.width = random.uniform(2.75,3.5)
         self.height = self.width
         self.size = (self.width , self.height)
         self.image = pygame.Surface(self.size)
@@ -14,7 +14,7 @@ class Yildiz(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = random.randrange(0, c.DISPLAY_WIDTH)
         self.vel_x = 0
-        self.vel_y = random.randrange(4 , 15)
+        self.vel_y = random.randrange(12 , 14)
     
     def update(self):
         self.rect.x += self.vel_x
