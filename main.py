@@ -1,12 +1,14 @@
 import pygame
 import random
 
+
+
 from bullet import Bullet
 from player import Player
 from enemy import Enemy
 from arkaplan import AP
 import boyut as  c
-
+from audio import Audio
 
 
 
@@ -18,14 +20,18 @@ pygame.display.set_caption("SPACE GAME")
 clock = pygame.time.Clock()
 
 
+
 ap = AP()
 ap_group = pygame.sprite.Group()
 ap_group.add(ap)
 
 
+
+sound=Audio()
+
 player = Player()
 bullet = Bullet(player.x, player.y)
-
+pygame.mixer.music.play(-1)
 
 def create_enemies():
     enemies = []
@@ -53,6 +59,8 @@ while running:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 bullet.playerBullet(player)
+                sound.laserSound.play()
+
 
 
     keys = pygame.key.get_pressed()
@@ -73,10 +81,17 @@ while running:
     bullet.moveBullet()
     for enemy in enemies[:]:
         if bullet.bulletCrashEnemy(enemy):
+            sound.chickenGetHit.play()
             if enemy.hp <= 0:
                 enemies.remove(enemy)
+                player.score=player.score+5
 
 
+    enemyCounter=len(enemies)
+
+    if enemyCounter == 0:
+        if player.health<5:
+            player.health=player.health+1
 
 
 
@@ -108,10 +123,11 @@ while running:
     if enemyBulletTimer >= 60:
         enemyBulletTimer = 0
 
-    print(player.killCounter)
+
 
     player.draw(screen)
     player.draw_health(screen)
+    player.score_draw(screen)
 
 
     if len(enemies) == 0:

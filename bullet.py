@@ -7,6 +7,8 @@ from player import Player
 
 import boyut as c
 
+from audio import Audio
+
 
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, x, y):
@@ -47,12 +49,14 @@ class Bullet(pygame.sprite.Sprite):
         self.bullets = [b for b in self.bullets if b[1] > -self.height]
 
     def bulletCrashEnemy(self, enemy):
+
         for bullet in self.bullets:
             rect1 = pygame.Rect(bullet[0], bullet[1], self.weight, self.height)
             rect2 = pygame.Rect(enemy.enemyX, enemy.enemyY, enemy.width, enemy.height)
             if rect1.colliderect(rect2):
                 try:
                     self.bullets.remove(bullet)
+
 
                 except ValueError:
                     pass

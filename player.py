@@ -10,6 +10,7 @@ class Player(pygame.sprite.Sprite):
         self.playerDirx = 7
         self.health = 5
         self.killCounter=0
+        self.score=0
 
         self.heart_img = pygame.image.load("assets/heart.jpg")
         self.heart_img = pygame.transform.scale(self.heart_img, (30, 30))
@@ -89,3 +90,10 @@ class Player(pygame.sprite.Sprite):
         for i in range(self.health):
             screen.blit(self.heart_img, (10 + i * 33, 10))
 
+
+    def score_draw(self,screen):
+        font = pygame.font.Font(None, 32)
+
+        # killCounter'ı yazdırmak
+        kill_text = font.render(f"SCORE: {self.score}", True, (255, 0, 0))
+        screen.blit(kill_text, (650, 20))
