@@ -22,7 +22,7 @@ ap = AP()
 player = Player()
 bullet = Bullet(player.x, player.y)
 
-# Sprite Grupları
+
 score_group = pygame.sprite.Group()
 score_group.add(score)
 ap_group = pygame.sprite.Group()
@@ -39,7 +39,9 @@ def create_enemies():
 
 enemies = create_enemies()
 
+
 enemyBulletTimer = 0
+enemyReduceBulletTimer=0
 running = True
 
 audio=Audio()
@@ -50,6 +52,8 @@ while running:
     clock.tick(60)
     screen.fill((0, 0, 0))
     enemyBulletTimer += 1
+
+
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -99,7 +103,7 @@ while running:
             for bul in enemy.enemy_bullets:
                 screen.blit(bullet.image2, (bul[0], bul[1]))
 
-            if enemyBulletTimer >= 120:
+            if enemyBulletTimer >= 120-enemyReduceBulletTimer:
                 for enemy in random.sample(enemies, min(6, len(enemies))):
                     enemy.enemyBullet()
 
@@ -110,13 +114,19 @@ while running:
     chickenCount = len(enemies)
 
 
-    if chickenCount == 0 and player.is_alive and player.health < 5:
+    if chickenCount == 0 and player.is_alive and player.health < 2:
         player.health = player.health + 1
+
+
+    if chickenCount==0:
         Enemy.currentSpeed()
         Enemy.currentEnemyBullSpeed()
+        enemyReduceBulletTimer += 3
 
 
 
+    if enemyReduceBulletTimer>=30:
+        enemyReduceBulletTimer=30
 
 
 
