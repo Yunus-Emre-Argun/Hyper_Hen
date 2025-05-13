@@ -14,7 +14,7 @@ class Enemy(pygame.sprite.Sprite):
 
 
         self.enemyX = random.randrange(50, c.DISPLAY_WIDTH - 50)
-        self.enemyY = random.randrange(50, 150)
+        self.enemyY = random.randrange(50, 350)
 
 
 
@@ -22,7 +22,7 @@ class Enemy(pygame.sprite.Sprite):
 
         self.width = 50
         self.height = 50
-        self.hp = 6
+        self.hp = 1
         self.score_value = 5
 
 
@@ -91,8 +91,8 @@ class Enemy(pygame.sprite.Sprite):
     def get_hit(self, bullet):
         self.damageFlash(bullet)
         if self.hp <= 0:
-            self.destroy()
-
+            self.image = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
+            self.image.fill((0, 0, 0, 0))
 
     def destroy(self):
         self.kill()
