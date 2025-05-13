@@ -22,7 +22,7 @@ class Enemy(pygame.sprite.Sprite):
 
         self.width = 50
         self.height = 50
-        self.hp = 1
+        self.hp = 6
         self.score_value = 5
 
 

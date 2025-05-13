@@ -1,9 +1,5 @@
-from shutil import Error
-
 import pygame
 import random
-
-
 from bullet import Bullet
 from player import Player
 from enemy import Enemy
@@ -33,11 +29,15 @@ ap_group = pygame.sprite.Group()
 ap_group.add(ap)
 alert_box_group = pygame.sprite.Group()
 
-enemy=Enemy()
-enemyGroup=pygame.sprite.Group()
-enemyGroup.add(enemy())
+
+def create_enemies():
+    enemies = []
+    for _ in range(random.randint(4, 15)):
+        enemies.append(Enemy())
+    return enemies
 
 
+enemies = create_enemies()
 
 
 enemyBulletTimer = 0
@@ -82,18 +82,14 @@ while running:
     ap_group.draw(screen)
     alert_box_group.update()
 
-
     bullet.moveBullet()
-    enemyCounter=0
-
-    for enemyCounter, enemy in enumerate(enemies):
+    for enemy in enemies[:]:
         if bullet.bulletCrashEnemy(enemy):
 
-            if enemy.hp<=0:
-                enemies[enemyCounter].kill()
-
-
-
+            audio.chickenGetHit.play()
+            if enemy.hp <= 0:
+                enemies.remove(enemy)
+                score.update_score(enemy.score_value)
 
     if player.is_alive:
         for enemy in enemies:
@@ -108,16 +104,12 @@ while running:
                 screen.blit(bullet.image2, (bul[0], bul[1]))
 
             if enemyBulletTimer >= 120-enemyReduceBulletTimer:
-                for enemy in random.sample(enemies, min(8, len(enemies))):
-
+                for enemy in random.sample(enemies, min(6, len(enemies))):
                     enemy.enemyBullet()
-
-                    bullet.draw(screen)
 
                 enemyBulletTimer = 0
 
         bullet.draw(screen)
-
 
     chickenCount = len(enemies)
 
