@@ -1,5 +1,7 @@
 import pygame
 import boyut as c
+from enemy import Enemy
+
 
 
 class Bullet(pygame.sprite.Sprite):
@@ -17,9 +19,10 @@ class Bullet(pygame.sprite.Sprite):
 
 
         self.enemy_bullets = []
-        self.enemy_bullet_speed = 10
+        self.enemy_bullet_speed = 5
         self.enemy_bullet_weight = 20
         self.enemy_bullet_height = 30
+
 
 
         self.x = x
@@ -56,6 +59,11 @@ class Bullet(pygame.sprite.Sprite):
         self.bullets = [b for b in self.bullets if b[1] > -self.height]
 
 
+    def enemyBullet(self,enemy):
+        bulletX = enemy.enemyX + enemy.width // 2
+        bulletY = enemy.enemyY + enemy.height
+        self.enemy_bullets.append([bulletX, bulletY])
+
     def bulletCrashEnemy(self, enemy):
         for bullet in self.bullets:
             rect1 = pygame.Rect(bullet[0], bullet[1], self.weight, self.height)
@@ -73,7 +81,7 @@ class Bullet(pygame.sprite.Sprite):
 
 
     def enemyBulletCrashPlayer(self, enemy, player, bullet):
-        for b in enemy.enemy_bullets[:]:
+        for b in bullet.enemy_bullets[:]:
             rect1 = pygame.Rect(b[0], b[1], bullet.enemy_bullet_weight, bullet.enemy_bullet_height)
             rect2 = pygame.Rect(player.x, player.y, player.width, player.height)
 
@@ -81,14 +89,14 @@ class Bullet(pygame.sprite.Sprite):
 
 
                 if rect1.colliderect(rect2):
-                    enemy.enemy_bullets.remove(b)
+                    self.enemy_bullets.remove(b)
                     player.reduce_health()
 
 
 
-    def enemyMoveBullet(self):
+    def enemymoveBullets(self):
         for bullet in self.enemy_bullets:
-            bullet[1] += self.enemy_bullet_speed
+            bullet[1] += self.enemy_bullet_speed+Enemy.currentEnemyBulletSpeed
 
 
         self.enemy_bullets = [b for b in self.enemy_bullets if b[1] < c.DISPLAY_HEIGHT]

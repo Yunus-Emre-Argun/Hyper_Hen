@@ -1,28 +1,48 @@
 import pygame
 import random
+
+from pygame.examples.testsprite import Static
+
 import boyut as c
 
 
 
 
-
 class Enemy(pygame.sprite.Sprite):
+
     currentEnemyBulletSpeed=0
     enemyCurrentSpeed=0
     def __init__(self):
         super().__init__()
 
 
+
+
+
+
         self.enemyX = random.randrange(50, c.DISPLAY_WIDTH - 50)
-        self.enemyY = random.randrange(50, 350)
+        self.enemyY = random.randrange(50, 340)
 
 
+        self.olasilik=random.randrange(1,5)
 
-        self.enemyDirx = 2+Enemy.enemyCurrentSpeed
+        self.randBAslangic =None
+
+        if self.olasilik>1 and self.olasilik<3:
+            self.randBAslangic=-1
+
+        else:
+            self.randBAslangic=1
+
+        if self.randBAslangic>0:
+            self.enemyDirx = 2*self.randBAslangic+Enemy.enemyCurrentSpeed
+
+        else:
+            self.enemyDirx=2*self.randBAslangic-Enemy.enemyCurrentSpeed
 
         self.width = 50
         self.height = 50
-        self.hp = 6
+        self.hp = 4
         self.score_value = 5
 
 
@@ -43,8 +63,7 @@ class Enemy(pygame.sprite.Sprite):
         self.damage_Time = 0
 
 
-        self.enemy_bullet_speed = 5
-        self.enemy_bullets = []
+
 
 
     def toRed(self, image):
@@ -99,10 +118,7 @@ class Enemy(pygame.sprite.Sprite):
 
 
 
-    def enemyBullet(self):
-        bulletX = self.enemyX + self.width // 2
-        bulletY = self.enemyY + self.height
-        self.enemy_bullets.append([bulletX, bulletY])
+
 
 
     def draw(self, screen):
@@ -128,20 +144,22 @@ class Enemy(pygame.sprite.Sprite):
         screen.blit(current_image, (self.enemyX, self.enemyY))
 
 
-    def moveBullets(self):
-        for bullet in self.enemy_bullets:
-            bullet[1] += self.enemy_bullet_speed+Enemy.currentEnemyBulletSpeed
 
-
-        self.enemy_bullets = [b for b in self.enemy_bullets if b[1] < c.DISPLAY_HEIGHT]
 
     @staticmethod
     def currentSpeed():
-        Enemy.enemyCurrentSpeed+=0.5
+        Enemy.enemyCurrentSpeed+=0.2
         if Enemy.enemyCurrentSpeed>=3.3:
             Enemy.enemyCurrentSpeed=3.3
     @staticmethod
     def currentEnemyBullSpeed():
-        Enemy.currentEnemyBulletSpeed+=2
-        if Enemy.currentEnemyBulletSpeed>=10:
-            Enemy.currentEnemyBulletSpeed=10
+        Enemy.currentEnemyBulletSpeed+=1.5
+        if Enemy.currentEnemyBulletSpeed>=6:
+            Enemy.currentEnemyBulletSpeed=6
+
+
+
+
+
+
+

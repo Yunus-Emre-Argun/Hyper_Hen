@@ -16,6 +16,8 @@ screen = pygame.display.set_mode(c.DISPLAY_SIZE)
 pygame.display.set_caption("SPACE GAME")
 clock = pygame.time.Clock()
 
+
+
 score = Score()
 ap = AP()
 player = Player()
@@ -82,21 +84,28 @@ while running:
                 enemies.remove(enemy)
                 score.update_score(enemy.score_value)
 
+    count=len(enemies)
     if player.is_alive:
         for enemy in enemies:
             enemy.moveEnemy()
             enemy.enemyRangeControl()
-            enemy.moveBullets()
+
             enemy.draw(screen)
-            bullet.enemyMoveBullet()
+
             bullet.enemyBulletCrashPlayer(enemy, player, bullet)
 
-            for bul in enemy.enemy_bullets:
+            for bul in bullet.enemy_bullets:
                 screen.blit(bullet.image2, (bul[0], bul[1]))
 
             if enemyBulletTimer >= 120 - enemyReduceBulletTimer:
-                for enemy in random.sample(enemies, min(6, len(enemies))):
-                    enemy.enemyBullet()
+                if len(enemies)>3:
+                    for enemy in random.sample(enemies, random.randint(2,(int)(count/2))):
+
+                        bullet.enemyBullet(enemy)
+
+                else:
+                    for enemy in enemies:
+                        bullet.enemyBullet(enemy)
 
                 enemyBulletTimer = 0
 
@@ -104,7 +113,7 @@ while running:
 
     chickenCount = len(enemies)
 
-    if chickenCount == 0 and player.is_alive and player.health < 2:
+    if chickenCount == 0 and player.is_alive and player.health < 5:
         player.health = player.health + 1
 
     if chickenCount == 0:
@@ -120,7 +129,7 @@ while running:
         player.draw_health(screen)
 
     score_group.draw(screen)
-
+    bullet.enemymoveBullets()
     if len(enemies) == 0:
         enemies = create_enemies()
 
