@@ -43,7 +43,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.center = (self.x + self.width // 2, self.y + self.height // 2)
 
 
-        self.mask = pygame.mask.from_surface(self.image)
+        self.mask = pygame.mask.from_surface(self.image)#player piksel kontrolü için (temas uzaklığı)
 
 
         self.animation_counter = 0
