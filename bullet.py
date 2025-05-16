@@ -86,9 +86,10 @@ class Bullet(pygame.sprite.Sprite):
             rect2 = pygame.Rect(player.x, player.y, player.width, player.height)
 
             if rect1.colliderect(rect2):
-
-
-                if rect1.colliderect(rect2):
+                
+                #player piksel kontrolü için (temas uzaklığı)
+                offset = (rect1.x - rect2.x, rect1.y - rect2.y)
+                if player.mask.overlap(pygame.mask.Mask((rect1.width, rect1.height), fill=True), offset):
                     self.enemy_bullets.remove(b)
                     player.reduce_health()
 
