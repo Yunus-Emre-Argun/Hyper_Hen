@@ -1,9 +1,6 @@
+# 🐔 Hyper_Hen
 
-## 🎥 Oynanıştan Bir Kare
-
-[![Hyper_Hen Gameplay](assets/gif.gif)](assets/gif.gif)
-
-
+[![Hyper_Hen Gameplay](assets/gif2.gif)](assets/gif2.gif)
 
 # 🐔 Hyper_Hen
 
