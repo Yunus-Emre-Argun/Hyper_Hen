@@ -1,5 +1,7 @@
 # 🐔 Hyper_Hen
 
+Oyunun içinden ufak bir kare:
+
 [![Hyper_Hen Gameplay](assets/gif2.gif)](assets/gif2.gif)
 
 # 🐔 Hyper_Hen
