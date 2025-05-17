@@ -8,7 +8,7 @@
 # 🐔 Hyper_Hen
 
 Retro tarzda geliştirilen 2D uzaylı tavuk vurma oyunu. Python ve Pygame ile yazılmıştır.  
-Klasik Chicken Invaders tarzında, modern bir dokunuşla eğlenceli ve aksiyon dolu bir shooter deneyimi sunar.
+Arcade oyun tarzında eğlenceli ve aksiyon dolu bir shooter deneyimi sunar.
 
 ---
 
@@ -25,6 +25,7 @@ Her dalgada zorluk artar, refleksler test edilir. Hedef: en yüksek skoru yapmak
 - SPACE tuşu ile ateş et
 - Düşmanlardan kaç, tavukları vur
 - Bölüm geçtikçe oyun hızlanır
+- Her düşman dalgasını temizlediğinde 1 can kazanırsın
 - Canın biterse oyun sona erer
 
 ---
@@ -35,6 +36,7 @@ Her dalgada zorluk artar, refleksler test edilir. Hedef: en yüksek skoru yapmak
 - ✅ Bölüm geçiş sistemi
 - ✅ Ses ve animasyonlar
 - ✅ Çarpışma sistemi
+  
 
 
 ---
