@@ -6,18 +6,17 @@ from enemy import Enemy
 from arkaplan import AP
 from score import Score
 from alert_box import AlertBox
+from menu import Menu  # Menü sınıfını import ettik
 import boyut as c
 from audio import Audio
 
-# Oyun başlatma işlemleri
 pygame.init()
 pygame.font.init()
 screen = pygame.display.set_mode(c.DISPLAY_SIZE)
 pygame.display.set_caption("SPACE GAME")
 clock = pygame.time.Clock()
 
-
-
+# Oyun objeleri
 score = Score()
 ap = AP()
 player = Player()
@@ -28,6 +27,10 @@ score_group.add(score)
 ap_group = pygame.sprite.Group()
 ap_group.add(ap)
 alert_box_group = pygame.sprite.Group()
+
+# Menü objesi ve durum değişkeni
+menu = Menu()
+in_menu = True  # Menü açıkken True, oyun başlamadan önce
 
 def create_enemies():
     enemies = []
@@ -43,10 +46,22 @@ running = True
 
 audio = Audio()
 
-pygame.mixer.music.play(-1)
 
 while running:
     clock.tick(60)
+
+
+    if in_menu:
+        menu.draw(screen)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            elif menu.handle_event(event) == "start":
+                pygame.mixer.music.play(-1)
+                in_menu = False  # Menüyü kapat, oyunu başlat
+        continue  # Menü açıkken aşağıdaki oyun kodu çalışmasın
+
+    # Menü kapalı, oyun kısmı başlasın
     screen.fill((0, 0, 0))
     enemyBulletTimer += 1
 
@@ -58,6 +73,28 @@ while running:
             if event.key == pygame.K_SPACE and player.is_alive:
                 audio.laserSound.play()
                 bullet.playerBullet(player)
+
+
+        if not player.is_alive:
+            for alert in alert_box_group:
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if alert.is_restart_clicked(event.pos):
+                        # Oyun başına dönmek için objeleri sıfırla
+                        score = Score()
+                        ap = AP()
+                        player = Player()
+                        bullet = Bullet(player.x, player.y)
+                        score_group = pygame.sprite.Group()
+                        score_group.add(score)
+                        ap_group = pygame.sprite.Group()
+                        ap_group.add(ap)
+                        alert_box_group.empty()
+                        enemies = create_enemies()
+                        enemyBulletTimer = 0
+                        enemyReduceBulletTimer = 0
+                        in_menu = False
+                        pygame.mixer.music.stop()
+                        pygame.mixer.music.play(-1)
 
     keys = pygame.key.get_pressed()
     if player.is_alive:
@@ -84,12 +121,11 @@ while running:
                 enemies.remove(enemy)
                 score.update_score(enemy.score_value)
 
-    count=len(enemies)
+    count = len(enemies)
     if player.is_alive:
         for enemy in enemies:
             enemy.moveEnemy()
             enemy.enemyRangeControl()
-
             enemy.draw(screen)
 
             bullet.enemyBulletCrashPlayer(enemy, player, bullet)
@@ -97,24 +133,21 @@ while running:
             for bul in bullet.enemy_bullets:
                 screen.blit(bullet.image2, (bul[0], bul[1]))
 
-            if enemyBulletTimer >= 120 - enemyReduceBulletTimer:
-                if len(enemies)>3:
-                    for enemy in random.sample(enemies, random.randint(2,(int)(count/2))):
-
-                        bullet.enemyBullet(enemy)
-
-                else:
-                    for enemy in enemies:
-                        bullet.enemyBullet(enemy)
-
-                enemyBulletTimer = 0
+        if enemyBulletTimer >= 120 - enemyReduceBulletTimer:
+            if len(enemies) > 3:
+                for enemy in random.sample(enemies, random.randint(2, max(2, int(count/2)))):
+                    bullet.enemyBullet(enemy)
+            else:
+                for enemy in enemies:
+                    bullet.enemyBullet(enemy)
+            enemyBulletTimer = 0
 
         bullet.draw(screen)
 
     chickenCount = len(enemies)
 
     if chickenCount == 0 and player.is_alive and player.health < 5:
-        player.health = player.health + 1
+        player.health += 1
 
     if chickenCount == 0:
         Enemy.currentSpeed()
@@ -133,13 +166,14 @@ while running:
     if len(enemies) == 0:
         enemies = create_enemies()
 
-    if not player.is_alive:
+    # Oyun bittiğinde alert_box ekle (sadece 1 kere)
+    if not player.is_alive and len(alert_box_group) == 0:
         alert_box = AlertBox("GAME OVER")
         alert_box_group.add(alert_box)
 
-    alert_box_group.draw(screen)
+    for alert in alert_box_group:
+        alert.draw(screen)
 
     pygame.display.update()
 
 pygame.quit()
-
