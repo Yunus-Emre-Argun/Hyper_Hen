@@ -32,7 +32,8 @@ Her dalgada artan zorlukla reflekslerini test et ve **en yüksek skoru yapmaya**
 - ✅ Pygame tabanlı oyun motoru  
 - ✅ Artan zorluklu bölüm geçiş sistemi  
 - ✅ Ses efektleri ve animasyonlar  
-- ✅ Gerçek zamanlı çarpışma ve skor sistemi  
+- ✅ Gerçek zamanlı çarpışma ve skor sistemi
+- ✅ Oyun menüsü
 
 ---
 
