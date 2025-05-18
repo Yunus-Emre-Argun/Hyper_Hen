@@ -34,6 +34,7 @@ Her dalgada artan zorlukla reflekslerini test et ve **en yüksek skoru yapmaya**
 - ✅ Ses efektleri ve animasyonlar  
 - ✅ Gerçek zamanlı çarpışma ve skor sistemi
 - ✅ Oyun menüsü
+- ✅ Hareketli arkaplan
 
 ---
 
